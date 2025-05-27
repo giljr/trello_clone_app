@@ -1,0 +1,38 @@
+<%# app/views/boards/show.html.erb %>
+<div class="p-6">
+  <h1 class="text-3xl font-bold mb-8">My Kanban Board</h1>
+  
+  <div 
+    id="boards-container"
+    data-controller="sortable"
+    data-sortable-group-value="boards"
+    data-sortable-url-value="<%= sort_boards_path %>"
+    class="flex gap-4 overflow-x-auto pb-4">
+    
+    <% @boards.each do |board| %>
+      <div 
+        data-id="<%= board.id %>"
+        class="flex-shrink-0 w-72 bg-gray-50 rounded-lg p-4">
+        
+        <h2 class="font-bold text-lg mb-4"><%= board.name %></h2>
+        
+        <ul 
+          id="board-<%= board.id %>"
+          data-controller="sortable"
+          data-sortable-group-value="cards"
+          data-sortable-url-value="<%= sort_card_path('CARD_ID') %>"
+          class="space-y-3 min-h-[100px]">
+          
+          <% board.cards.each do |card| %>
+            <li 
+              data-id="<%= card.id %>"
+              class="bg-white p-3 rounded shadow cursor-move hover:shadow-md transition-shadow">
+              <h3 class="font-medium"><%= card.title %></h3>
+              <p class="text-sm text-gray-600"><%= card.body %></p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
